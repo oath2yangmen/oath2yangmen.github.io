@@ -136,6 +136,71 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-08-31T06:10:12.000Z">2017-08-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Interview/">Interview</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes read (About 784 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/">算法1-比赛出线问题</a>
+            
+        </h1>
+        <div class="content">
+            <p><strong>足球比赛，一个小组有8支球队进行单循环赛，胜者积3分，平则算法同积1分，负则不积分，规定积分最高的4支球队出线，则出线至少需要多少分？未出线最多可能有多少分？</strong></p>
+<p> 循环赛的概念是每一支球队会与其他所有球队各进行一场比赛。8支球队共进行8*7/2=28场比赛。</p>
+<hr>
+<p>1、出线至少需要多少分？</p>
+<ul>
+<li><p><strong>我的解释：</strong> 分数最少还要出线，所以优先输掉比赛，其次是打平。所以输掉3场，也就是输给了3个队（输给4个队，就不能保证分数最少出线了）。然后和剩下的4个队打平，这样也就是有5支队伍都只有4个积分，剩下3支都赢了剩下的5支。这样，5个4分的队伍争第四名，则出线至少要4个积分</p>
+</li>
+<li><p><strong>别人的解释：</strong> 赢得比赛积分最快，打平积分增长慢，输掉比赛积分不变。如果想以最少的积分赢，着眼点应该在第四名上。对于第四名，如果想要满足以最少的积分赢，那么他应该输给比他强的人（与第一名、第二名、第三名比赛不积分），与所有不如自己的人打平（与第五名、第六名、第七名、第八名比赛，每场积一分），这样，第四名得分最少为4分</p>
+</li>
+</ul>
+<hr>
+<p>2、未出线最多可能有多少分？</p>
+<ul>
+<li><p><strong>我的解释：</strong> 不出线分数还要最多，所以优先赢得比赛，其次打平。所以赢3场（赢4场就不能保证分数最多还不出线了），也就是赢了3个弱队，与剩下的4个队都打平。这样一共5个强队，每个强队都赢了3个弱队，强队之间都赢2场输2场（强队之间打平的话4分，2输2赢要6分，所以优先赢），这样也就是3x3+2x3=15分，所以有5支15分的队来争取不要不出线。这样，不出线最多能拿15分。**</p>
+</li>
+<li><p><strong>别人的解释：</strong> 考虑第四名与第五名并列，积分相同（通过其他方式角逐第四名）。<br>这样有五个强队（前五名），三个弱队（后三名），假设后三名的球队与前五名的球队比赛时，都输给前五名，这样，前五名的每一支球队通过与后三名的球队比赛都获得3x3=9分，前五名球队的比赛，每个球队会参加4场比赛，假设，每个球队都赢两场，负两场，那么前五只球队在这个过程中每人获得2x3=6分，加上与后三名比赛积分6+9=15分，前五名并列（通过其他方式角逐名次），未出线最多获得15分</p>
+</li>
+</ul>
+<hr>
+<p>END</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-08-10T11:29:10.000Z">2017-08-10</time>
                 
                 <div class="level-item">
@@ -578,7 +643,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            3
+                            4
                         </p>
                     </a>
                 </div>
@@ -590,7 +655,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            2
+                            3
                         </p>
                     </a>
                 </div>
@@ -602,7 +667,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            2
+                            3
                         </p>
                     </a>
                 </div>
@@ -694,6 +759,14 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Interview/">
+            <span class="level-start">
+                <span class="level-item">Interview</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
@@ -720,7 +793,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Java-Array/" style="font-size: 10px;">Java Array</a> <a href="/tags/youtube-dnn/" style="font-size: 10px;">youtube-dnn</a>
+        <a href="/tags/Java-Array/" style="font-size: 10px;">Java Array</a> <a href="/tags/youtube-dnn/" style="font-size: 10px;">youtube-dnn</a> <a href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">出线问题</a>
     </div>
 </div>
     
@@ -732,6 +805,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法1-比赛出线问题">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-31T06:10:12.000Z">2017-08-31</time></div>
+                    <a href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法1-比赛出线问题</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Interview/">Interview</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -807,7 +899,7 @@
                     <span class="level-item">August 2017</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -846,6 +938,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/youtube-dnn/">
                         <span class="tag">youtube-dnn</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/">
+                        <span class="tag">出线问题</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -874,6 +973,25 @@
         
         <article class="media">
             
+            <a href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法1-比赛出线问题">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-31T06:10:12.000Z">2017-08-31</time></div>
+                    <a href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法1-比赛出线问题</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Interview/">Interview</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2017/08/10/youtube%20dnn/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="《Deep Neural Networks for YouTube Recommendations》 -2016 RecSys-论文阅读">
@@ -946,7 +1064,7 @@
                     <span class="level-item">August 2017</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -985,6 +1103,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/youtube-dnn/">
                         <span class="tag">youtube-dnn</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/">
+                        <span class="tag">出线问题</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
