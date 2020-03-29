@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>线性回归相关理解 - oath2yangmen&#39;s blog</title>
+<title>为了解决梯度下降求解变慢问题，怎么选择代价函数？怎么初始化参数？ - oath2yangmen&#39;s blog</title>
 
 
-    <meta name="description" content="线性回归模型 参考   Spark2.0机器学习系列之12： 线性回归及L1、L2正则化区别与稀疏解 - qq_34531825的博客 - CSDN博客   回归系列之L1和L2正则化 - 简书   Regularized Regression: A Bayesian point of view   最小二乘法和最大似然估计区别和联系   最小二乘法 回顾   无偏估计：样本均值的期望 等于 总体">
+    <meta name="description" content="梯度下降求解变慢问题 如果aL非常小或者非常大，则 aL*(1-aL) 接近于0。导致权重更新时，WL变化很小，出现了求解变得超慢的问题。 如何避免变慢问题此时我们可能这样想，如果在dJ&#x2F;dWL里，消掉g’(ZL)，使之不受影响，能够正常的速度下降求解就好了。 所以我们这样干： 代价函数选择选择一个完美的代价函数来消掉g’(ZL)。 输出单元选sigmoid作为激活函数  我们发现选择了交叉熵的c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线性回归相关理解">
-<meta property="og:url" content="http://yoursite.com/2017/09/01/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:title" content="为了解决梯度下降求解变慢问题，怎么选择代价函数？怎么初始化参数？">
+<meta property="og:url" content="http://yoursite.com/2017/09/04/%E4%B8%BA%E4%BA%86%E8%A7%A3%E5%86%B3%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%9F%E6%80%8E%E4%B9%88%E5%88%9D%E5%A7%8B%E5%8C%96%E5%8F%82%E6%95%B0%EF%BC%9F/index.html">
 <meta property="og:site_name" content="oath2yangmen&#39;s blog">
-<meta property="og:description" content="线性回归模型 参考   Spark2.0机器学习系列之12： 线性回归及L1、L2正则化区别与稀疏解 - qq_34531825的博客 - CSDN博客   回归系列之L1和L2正则化 - 简书   Regularized Regression: A Bayesian point of view   最小二乘法和最大似然估计区别和联系   最小二乘法 回顾   无偏估计：样本均值的期望 等于 总体">
+<meta property="og:description" content="梯度下降求解变慢问题 如果aL非常小或者非常大，则 aL*(1-aL) 接近于0。导致权重更新时，WL变化很小，出现了求解变得超慢的问题。 如何避免变慢问题此时我们可能这样想，如果在dJ&#x2F;dWL里，消掉g’(ZL)，使之不受影响，能够正常的速度下降求解就好了。 所以我们这样干： 代价函数选择选择一个完美的代价函数来消掉g’(ZL)。 输出单元选sigmoid作为激活函数  我们发现选择了交叉熵的c">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2017-09-01T06:22:34.000Z">
-<meta property="article:modified_time" content="2020-03-29T13:18:40.000Z">
+<meta property="article:published_time" content="2017-09-04T09:52:21.000Z">
+<meta property="article:modified_time" content="2020-03-29T13:50:57.000Z">
 <meta property="article:author" content="oath2yangmen">
-<meta property="article:tag" content="linear regression">
+<meta property="article:tag" content="gradient">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.svg" alt="线性回归相关理解" height="28">
+                <img src="/images/favicon.svg" alt="为了解决梯度下降求解变慢问题，怎么选择代价函数？怎么初始化参数？" height="28">
             
             </a>
         </div>
@@ -140,17 +140,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-09-01T06:22:34.000Z">2017-09-01</time>
+                <time class="level-item has-text-grey" datetime="2017-09-04T09:52:21.000Z">2017-09-04</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Machine-Learning/">Machine Learning</a>
+                <a class="has-link-grey -link" href="/categories/Deep-Learning/">Deep Learning</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 minutes read (About 1109 words)
+                    6 minutes read (About 929 words)
                 </span>
                 
                 
@@ -159,79 +159,46 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                线性回归相关理解
+                为了解决梯度下降求解变慢问题，怎么选择代价函数？怎么初始化参数？
             
         </h1>
         <div class="content">
-            <h3 id="线性回归模型"><a href="#线性回归模型" class="headerlink" title="线性回归模型"></a>线性回归模型</h3><blockquote>
-<p>参考</p>
-</blockquote>
-<blockquote>
-<p><a href="https://blog.csdn.net/qq_34531825/article/details/52689654">Spark2.0机器学习系列之12： 线性回归及L1、L2正则化区别与稀疏解 - qq_34531825的博客 - CSDN博客</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://www.jianshu.com/p/a47c46153326">回归系列之L1和L2正则化 - 简书</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://charleshm.github.io/2016/03/Regularized-Regression/">Regularized Regression: A Bayesian point of view</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://blog.csdn.net/xidianzhimeng/article/details/20847289">最小二乘法和最大似然估计区别和联系</a></p>
-</blockquote>
-<p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/0.png" alt="Linear Regression"></p>
-<h4 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h4><blockquote>
-<p>回顾</p>
-</blockquote>
-<blockquote>
-<p>无偏估计：样本均值的期望 等于 总体均值</p>
-</blockquote>
-<blockquote>
-<p>有偏估计：<img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/00.png" alt=""></p>
-</blockquote>
-<p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/2.png" alt="最小二乘法推导"></p>
-<h4 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h4><blockquote>
-<p>回顾 <a href="">最大似然估计和贝叶斯估计 | Oath2yangmen’s Blog</a></p>
-</blockquote>
-<blockquote>
-<p>最大似然估计：假设参数固定，为了求该参数，通过使得事件发生的概率最大来求解参数</p>
-</blockquote>
-<p><strong>从最大似然估计推导损失函数</strong></p>
-<p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/1.png" alt="最大似然估计推导"></p>
-<h4 id="最优化问题求解"><a href="#最优化问题求解" class="headerlink" title="最优化问题求解"></a>最优化问题求解</h4><blockquote>
-<p>回顾 <a href="">矩阵求导常用公式 Hessian矩阵 Jacobian矩阵 | Oath2yangmen’s Blog</a></p>
-</blockquote>
-<blockquote>
-<p>多元函数，多个因变量下的一阶导数是Jacobian矩阵；单一因变量下的一阶导数是一个与自变量维数相同的向量；单一因变量下的二阶导数是Hessian 矩阵，矩阵的行数等于因变量的个数，列数等于自变量的个数，二阶导数等于一阶导数向量的Jacobian矩阵。</p>
-</blockquote>
-<blockquote>
-<p>二阶导数代表了函数的凹凸性。</p>
-</blockquote>
-<p>线性回归模型的损失函数一阶导数和二阶导数均连续，所以是一个具有全局最小值的凸优化问题。</p>
-<h4 id="L1、L2正则化讨论"><a href="#L1、L2正则化讨论" class="headerlink" title="L1、L2正则化讨论"></a>L1、L2正则化讨论</h4><blockquote>
-<p>回顾 <a href="">理解L1和L2正则化 | Oath2yangmen’s Blog</a></p>
-</blockquote>
-<blockquote>
-<p>共线性数据、欠定方程组</p>
-</blockquote>
-<blockquote>
-<p>共线性数据：“自变量之间呈现出了某种线性关系”。线性回归模型中的自变量之间由于存在精确相关关系或高度相关关系从而使模型估计失真或难以估计准确。</p>
-</blockquote>
-<blockquote>
-<p>欠定方程组 ：当样本点比较少，而特征比较多，特征个数多于样本个数，这时候输入数据的矩阵X是非满秩的，最直白的话就是方程的个数少于未知数，也就是欠定方程组，理论上应该有无穷多解。</p>
-</blockquote>
-<p>对于这两种问题最小二乘进行normal equation解析时失效，X矩阵为奇异矩阵或者说不满秩。普通最小二乘一般解决超定方程组问题。</p>
-<h4 id="Ridge回归-L2-norm的线性回归"><a href="#Ridge回归-L2-norm的线性回归" class="headerlink" title="Ridge回归 - L2 norm的线性回归"></a>Ridge回归 - L2 norm的线性回归</h4><blockquote>
-<p>“是一种专用于共线性数据分析的有偏估计回归方法，实质上是一种改良的最小二乘估计法，通过放弃最小二乘法的无偏性，以损失部分信息、降低精度为代价获得回归系数更为符合实际、更稳定、更可靠的回归方法，对病态数据的拟合要强于最小二乘法。”</p>
-</blockquote>
-<p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/3.png" alt="Ridge回归解析解推导"></p>
-<p>Ridge回归对原来的解加了 lamda * I 项，使不奇异，可以进行求逆运算。</p>
-<p>L2-norm的线性回归可以用normal equation解出解析解，也可以用SGD或LBFGS求解。不同情况选择适合的优化方法。阅读 <a href="">求解L1正则化问题 | Oath2yangmen’s Blog</a></p>
-<p>从贝叶斯角度分析Ridge回归可以认为是给参数引入高斯分布，阅读 <a href="">理解L1和L2正则化 | Oath2yangmen’s Blog</a></p>
-<h4 id="Lasso回归-L1-norm的线性回归"><a href="#Lasso回归-L1-norm的线性回归" class="headerlink" title="Lasso回归 - L1 norm的线性回归"></a>Lasso回归 - L1 norm的线性回归</h4><p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/4.png" alt="Lasso回归"></p>
-<p>从贝叶斯角度分析Lasso回归可以认为是给参数引入拉普拉斯分布，阅读 <a href="">理解L1和L2正则化 | Oath2yangmen’s Blog</a></p>
-<h4 id="ElasticNet回归-混合L1-norm和L2-norm的线性回归"><a href="#ElasticNet回归-混合L1-norm和L2-norm的线性回归" class="headerlink" title="ElasticNet回归 - 混合L1-norm和L2-norm的线性回归"></a>ElasticNet回归 - 混合L1-norm和L2-norm的线性回归</h4><p><img src="../images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/5.png" alt="ElasticNet回归"></p>
-<p>从贝叶斯角度分析ElasticNet回归可以认为是给参数引入拉普拉斯分布和高斯分布，阅读 <a href="">理解L1和L2正则化 | Oath2yangmen’s Blog</a></p>
-<h4 id="加正则项后求解"><a href="#加正则项后求解" class="headerlink" title="加正则项后求解"></a>加正则项后求解</h4><p>阅读 <a href="">求解L1正则化问题 | Oath2yangmen’s Blog</a></p>
+            <h3 id="梯度下降求解变慢问题"><a href="#梯度下降求解变慢问题" class="headerlink" title="梯度下降求解变慢问题"></a><strong>梯度下降求解变慢问题</strong></h3><p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradien_descent_slowdown1.jpg" alt="Gradien descent slowdown-1"></p>
+<p>如果aL非常小或者非常大，则 aL*(1-aL) 接近于0。导致权重更新时，WL变化很小，出现了求解变得超慢的问题。</p>
+<h3 id="如何避免变慢问题"><a href="#如何避免变慢问题" class="headerlink" title="如何避免变慢问题"></a><strong>如何避免变慢问题</strong></h3><p>此时我们可能这样想，如果在dJ/dWL里，消掉g’(ZL)，使之不受影响，能够正常的速度下降求解就好了。</p>
+<p>所以我们这样干：</p>
+<h4 id="代价函数选择"><a href="#代价函数选择" class="headerlink" title="代价函数选择"></a><strong>代价函数选择</strong></h4><p>选择一个完美的代价函数来消掉g’(ZL)。</p>
+<p><strong>输出单元选sigmoid作为激活函数</strong></p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown2.jpg" alt="Gradien descent slowdown-2"></p>
+<p>我们发现选择了交叉熵的cost function后，dJ/dWL消掉g’(ZL)，变成与（AL-Y）相关了。（AL-Y）的含义是预测值和实际值的误差，也就是说权重的下降速率由输出结果的误差决定了。这很好啊，是我们期待的。</p>
+<p><strong>输出单元为线性单元即直接输出</strong></p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown3.jpg" alt="Gradien descent slowdown-3"></p>
+<p>cost function 选 quadratic cost function ( 均方误差函数 ) 时，不存在g’(ZL)的影响。所以输出直接线性输出时，可以直接用均方误差函数。</p>
+<p><strong>输出单元为softmax回归</strong><br>想再解释一下softmax的cost function的含义：</p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown4.jpg" alt="Gradien descent slowdown-4"></p>
+<p>这里权重更新的速度也由预测误差值决定，是我们期待的。</p>
+<p><strong>附：推导出交叉熵函数</strong></p>
+<p>我们的期待是权重下降由误差来决定，所以写出1-1式。</p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown5.jpg" alt="Gradien descent slowdown-5"></p>
+<p>反推得到的就是交叉熵的函数表达式了。</p>
+<h4 id="参数初始化"><a href="#参数初始化" class="headerlink" title="参数初始化"></a><strong>参数初始化</strong></h4><p>一般采用随机初始化的方式初始化参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wi &#x3D; np.random.rand(ni+1,ni);</span><br></pre></td></tr></table></figure>
+
+<p>这样得到的是独立分布的高斯随机变量，均值为0，标准差是1。</p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown6.jpg" alt="Gradien descent slowdown-6"></p>
+<p><strong>随机初始化</strong><br>为了解决这种情况，我们可以给随机的结果乘个缩小系数。<br>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wi &#x3D; np.random.rand(ni+1,ni)*0.001;</span><br></pre></td></tr></table></figure>
+
+<p><strong>随机窄分布初始化</strong><br>这种治标不治本，只是整体缩小了参数，我们可能会这样想：压缩一下z的分布，使之更尖锐，这样|z|就不会很大了。</p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown7.jpg" alt="Gradien descent slowdown-7"></p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wi &#x3D; np.random.rand(ni+1,ni)&#x2F;np.sqrt(ni);</span><br></pre></td></tr></table></figure>
+
+<p><strong>输入数据归一化</strong><br>此外，对输入数据进行归一化也是必须要做的，为了避免神经元饱和。</p>
+<p><strong>正则化对参数的影响</strong><br>下面是加了L2正则项之后权重w的更新公式，先不管怎么得到的，看看加了正则后的影响。</p>
+<p><img src="../images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B1%82%E8%A7%A3%E5%8F%98%E6%85%A2/gradient_descent_slowdown8.jpg" alt="Gradien descent slowdown-8"></p>
+<p>简单的理解，正则化可以看作是一种能够折中考虑小的权重和最小化原来的cost fuction 的方法。入是正则系数，它越小，偏好于最小化原来的 cost fuction-J(w)，它越大偏好更小的权重。</p>
+<p>正则是为了减少过拟合，先可以有个印象，就是正则使得网络少学习了训练集局部的噪声，增强网络泛化能力。我对正则化的理解及推导会在后面的一篇里写出。</p>
 
         </div>
         
@@ -239,7 +206,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/linear-regression/" rel="tag">linear regression</a>
+                    <a class="has-link-grey -link" href="/tags/gradient/" rel="tag">gradient</a>
                 </div>
             </div>
         </div>
@@ -256,17 +223,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/09/01/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">逻辑回归公式推导</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/">
-                <span class="level-item">算法1-比赛出线问题</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/09/04/%E5%AF%BC%E6%95%B0%E3%80%81%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E3%80%81%E6%A2%AF%E5%BA%A6%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/">
+                <span class="level-item">导数、偏导数、方向导数、梯度的简单理解</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -948,7 +908,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.svg" alt="线性回归相关理解" height="28">
+                    <img src="/images/favicon.svg" alt="为了解决梯度下降求解变慢问题，怎么选择代价函数？怎么初始化参数？" height="28">
                 
                 </a>
                 <p class="is-size-7">
