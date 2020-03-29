@@ -176,17 +176,17 @@
 <p><img src="../images/youtube_recommend/smf.png" alt=""></p>
 <p>其中u代表了一个高维的用户、上下文信息的embedding向量，vj代表视频库里的每个视频id的embedding向量。公式计算结果表示基于上下文C,用户U最终在t时间看的一个视频wt是视频库里的视频i的可能性。</p>
 <p>这个候选集网络是参考了Word2vec里的CBOW模型。CBOW模型结构如下：</p>
-<p><img src="../images/youtube_recommend/cbow.jpg" alt="CBOW模型"></p>
+<p><img src="../images/youtube_recommend/cbow.png" alt="CBOW模型"></p>
 <p>负采样下的CBOW模型的理解可以参考 <a href="https://blog.csdn.net/itplus/article/details/37998797">word2vec 中的数学原理详解（五）基于 Negative Sampling 的模型 - CSDN博客</a></p>
-<p><img src="../images/youtube_recommend/cbow%E5%88%86%E6%9E%90.jpg" alt="CBOW模型"></p>
+<p><img src="../images/youtube_recommend/cbow%E5%88%86%E6%9E%90.png" alt="CBOW模型"></p>
 <p>这里参考一下 tesorflow wor2vec的skip-gram model的实现里的loss计算 <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/word2vec/word2vec_basic.py">word2vec_basic.py</a></p>
 <p>这里的nce loss的计算参考 <a href="https://www.jianshu.com/p/fab82fa53e16">Tensorflow 的NCE-Loss的实现和word2vec - 简书</a></p>
 <p>这两个看完，对cbow理解基本解决了。</p>
 <p>cbow中间只有一层，中间层的输出是Xw,youtube在此基础上多加了几层。且输入不仅仅只有context的视频的embedding的均值，还包含了用户的context信息的embedding(这里的embedding可以提前训练好），视频年龄等特征</p>
 <p>下面从cbow过渡到youtube,理解里面的细节</p>
-<p><img src="../images/youtube_recommend/cbow%E8%BF%87%E6%B8%A1%E5%88%B0youtube.jpg" alt="CBOW模型"></p>
+<p><img src="../images/youtube_recommend/cbow%E8%BF%87%E6%B8%A1%E5%88%B0youtube.png" alt="CBOW模型"></p>
 <p>广义上，这里的u可以理解成cbow中的Xw，cbow中的theta参数就是视频的embedding。word2vec_basic.py里是单独申请的权重变量，这里视频的embedding和最后一层的参数是同一个。</p>
-<p><img src="../images/youtube_recommend/youtube%E7%BB%86%E8%8A%82.jpg" alt=""></p>
+<p><img src="../images/youtube_recommend/youtube%E7%BB%86%E8%8A%82.png" alt=""></p>
 <p>注意：代码里为了实现视频的embedding和最后一层的nce权重参数是同一个，同时更新，采取了2个操作：<br>1，将输入的embedding在申请变量的时候，设置成不可训练，即不会加到optimizer的参数列表里，因此后向传播时不会被求梯度然后被更新，但是最后一层的NCE-权重参数会被更新<br>2，将更新的NCE-权重（其实是真正的视频embedding)重新赋值给输入的embedding变量。</p>
 <p>以上就是对候选集生成网络的架构的理解。</p>
 <h4 id="正负样本的选取"><a href="#正负样本的选取" class="headerlink" title="正负样本的选取"></a>正负样本的选取</h4><ul>
