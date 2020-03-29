@@ -7,21 +7,16 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>算法1-比赛出线问题 - oath2yangmen&#39;s blog</title>
+<title>Tag: logistic regression - oath2yangmen&#39;s blog</title>
 
 
-    <meta name="description" content="足球比赛，一个小组有8支球队进行单循环赛，胜者积3分，平则算法同积1分，负则不积分，规定积分最高的4支球队出线，则出线至少需要多少分？未出线最多可能有多少分？  循环赛的概念是每一支球队会与其他所有球队各进行一场比赛。8支球队共进行8*7&#x2F;2&#x3D;28场比赛。  1、出线至少需要多少分？  我的解释： 分数最少还要出线，所以优先输掉比赛，其次是打平。所以输掉3场，也就是输给了3个队（输给4个队，就不能">
-<meta property="og:type" content="article">
-<meta property="og:title" content="算法1-比赛出线问题">
-<meta property="og:url" content="http://yoursite.com/2017/08/31/%E7%AE%97%E6%B3%951-%E6%AF%94%E8%B5%9B%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="oath2yangmen&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/tags/logistic-regression/index.html">
 <meta property="og:site_name" content="oath2yangmen&#39;s blog">
-<meta property="og:description" content="足球比赛，一个小组有8支球队进行单循环赛，胜者积3分，平则算法同积1分，负则不积分，规定积分最高的4支球队出线，则出线至少需要多少分？未出线最多可能有多少分？  循环赛的概念是每一支球队会与其他所有球队各进行一场比赛。8支球队共进行8*7&#x2F;2&#x3D;28场比赛。  1、出线至少需要多少分？  我的解释： 分数最少还要出线，所以优先输掉比赛，其次是打平。所以输掉3场，也就是输给了3个队（输给4个队，就不能">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2017-08-31T06:10:12.000Z">
-<meta property="article:modified_time" content="2020-03-29T12:42:35.000Z">
 <meta property="article:author" content="oath2yangmen">
-<meta property="article:tag" content="出线问题">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -81,7 +76,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.svg" alt="算法1-比赛出线问题" height="28">
+                <img src="/images/favicon.svg" alt="oath2yangmen&#39;s blog" height="28">
             
             </a>
         </div>
@@ -133,24 +128,35 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">Tags</a></li>
+            <li class="is-active"><a href="#" aria-current="page">logistic regression</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    
 <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-08-31T06:10:12.000Z">2017-08-31</time>
+                <time class="level-item has-text-grey" datetime="2017-09-01T09:12:12.000Z">2017-09-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Interview/">Interview</a>
+                <a class="has-link-grey -link" href="/categories/Machine-Learning/">Machine Learning</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 784 words)
+                    a few seconds read (About 22 words)
                 </span>
                 
                 
@@ -159,40 +165,13 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                算法1-比赛出线问题
+                <a class="has-link-black-ter" href="/2017/09/01/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">逻辑回归公式推导</a>
             
         </h1>
         <div class="content">
-            <p><strong>足球比赛，一个小组有8支球队进行单循环赛，胜者积3分，平则算法同积1分，负则不积分，规定积分最高的4支球队出线，则出线至少需要多少分？未出线最多可能有多少分？</strong></p>
-<p> 循环赛的概念是每一支球队会与其他所有球队各进行一场比赛。8支球队共进行8*7/2=28场比赛。</p>
-<hr>
-<p>1、出线至少需要多少分？</p>
-<ul>
-<li><p><strong>我的解释：</strong> 分数最少还要出线，所以优先输掉比赛，其次是打平。所以输掉3场，也就是输给了3个队（输给4个队，就不能保证分数最少出线了）。然后和剩下的4个队打平，这样也就是有5支队伍都只有4个积分，剩下3支都赢了剩下的5支。这样，5个4分的队伍争第四名，则出线至少要4个积分</p>
-</li>
-<li><p><strong>别人的解释：</strong> 赢得比赛积分最快，打平积分增长慢，输掉比赛积分不变。如果想以最少的积分赢，着眼点应该在第四名上。对于第四名，如果想要满足以最少的积分赢，那么他应该输给比他强的人（与第一名、第二名、第三名比赛不积分），与所有不如自己的人打平（与第五名、第六名、第七名、第八名比赛，每场积一分），这样，第四名得分最少为4分</p>
-</li>
-</ul>
-<hr>
-<p>2、未出线最多可能有多少分？</p>
-<ul>
-<li><p><strong>我的解释：</strong> 不出线分数还要最多，所以优先赢得比赛，其次打平。所以赢3场（赢4场就不能保证分数最多还不出线了），也就是赢了3个弱队，与剩下的4个队都打平。这样一共5个强队，每个强队都赢了3个弱队，强队之间都赢2场输2场（强队之间打平的话4分，2输2赢要6分，所以优先赢），这样也就是3x3+2x3=15分，所以有5支15分的队来争取不要不出线。这样，不出线最多能拿15分。**</p>
-</li>
-<li><p><strong>别人的解释：</strong> 考虑第四名与第五名并列，积分相同（通过其他方式角逐第四名）。<br>这样有五个强队（前五名），三个弱队（后三名），假设后三名的球队与前五名的球队比赛时，都输给前五名，这样，前五名的每一支球队通过与后三名的球队比赛都获得3x3=9分，前五名球队的比赛，每个球队会参加4场比赛，假设，每个球队都赢两场，负两场，那么前五只球队在这个过程中每人获得2x3=6分，加上与后三名比赛积分6+9=15分，前五名并列（通过其他方式角逐名次），未出线最多获得15分</p>
-</li>
-</ul>
-<hr>
-<p>END</p>
+            <p><img src="../images/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/sigmoid_fuction.png" alt="sigmoid function"></p>
+<p><img src="../images/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/logistic_regression_formula_derivation.png" alt="logstic regression"></p>
 
-        </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/" rel="tag">出线问题</a>
-                </div>
-            </div>
         </div>
         
         
@@ -204,26 +183,7 @@
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/09/01/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9B%B8%E5%85%B3/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">线性回归相关理解</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2017/08/10/youtube%20dnn/">
-                <span class="level-item">《Deep Neural Networks for YouTube Recommendations》 -2016 RecSys-论文阅读</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
+
 
 
 </div>
@@ -855,7 +815,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.svg" alt="算法1-比赛出线问题" height="28">
+                    <img src="/images/favicon.svg" alt="oath2yangmen&#39;s blog" height="28">
                 
                 </a>
                 <p class="is-size-7">
