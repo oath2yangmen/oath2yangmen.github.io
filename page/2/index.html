@@ -136,6 +136,222 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-07-12T07:49:20.000Z">2017-07-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 minutes read (About 3544 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/07/12/Array%20Advanced/">Array Advanced</a>
+            
+        </h1>
+        <div class="content">
+            <p><strong>Java有大量的方式可以持有对象，其中数组是一种效率最高的存储和随机访问对象引用序列的方式</strong></p>
+<blockquote>
+<p>以下有些用了Java8的特性，刷题时看到有些人用，试了试</p>
+</blockquote>
+<h3 id="数组是对象"><a href="#数组是对象" class="headerlink" title="数组是对象"></a><strong>数组是对象</strong></h3><hr>
+<p>无论是基本类型数组还是对象类型数组，数组标识符只是一个引用，指向在堆里创建的一个真实对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int[] arr1 &#x3D; new int[5];</span><br><span class="line">Integer[] arr2 &#x3D; new Integer[5];</span><br><span class="line">System.out.println(arr1);</span><br><span class="line">System.out.println(arr2);</span><br><span class="line">Field[] fields &#x3D; arr2.getClass().getDeclaredFields();</span><br><span class="line">System.out.println(Arrays.toString(fields));</span><br></pre></td></tr></table></figure>
+
+<p>System.out.println()调用了String.valueOf()方法，后者最终调用了Object.toString()，返回对象的类名和16进制的对象地址值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[I@15db9742</span><br><span class="line">[Ljava.lang.Integer;@6d06d69c</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<p>数组是特殊的对象，它有一个只读成员length,但上面代码显示.getDeclaredFields()获取不到这个字段。</p>
+<h3 id="容器替代数组？"><a href="#容器替代数组？" class="headerlink" title="容器替代数组？"></a><strong>容器替代数组？</strong></h3><hr>
+<p>数组可以持有基本类型，而泛型之前的容器并不能。也就是说，在泛型之前，容器类在处理对象时都会将对象视为Object对象(没有任何具体类型)，而数组可以持有某种具体类型。更深一层的意义就是在编译期可以指出类型错误。</p>
+<p>有了泛型，容器也可以检查类型。随着自动包装机制的出现，容器已经可以和数组几乎一样方便地用于基本类型中了。数组硕果仅存的优点就是效率了。</p>
+<h3 id="数组初始化"><a href="#数组初始化" class="headerlink" title="数组初始化"></a><strong>数组初始化</strong></h3><hr>
+<p>基本类型数组的工作方式与对象数组一样，不过基本类型的数组直接存储基本类型数据的值。</p>
+<p><strong>默认初始化</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int[] arr3;</span><br><span class="line">Random rand &#x3D; new Random();</span><br><span class="line">arr3 &#x3D; new int[rand.nextInt(5)];</span><br><span class="line">&#x2F;&#x2F;基本类型中，Arrays.stream()目前只支持int\long\double</span><br><span class="line">Arrays.stream(arr3)</span><br><span class="line">  .forEach(s -&gt;System.out.print(s+&quot; &quot;));</span><br></pre></td></tr></table></figure>
+
+<p>上面代码里我定义了一个int数组arr3,此时只是一个引用（已经为这个引用分配了足够的空间），还没有给数组对象本身分配任何空间。Random.nextInt()在运行时随机出数组的大小，这表明数组对象的创建确实是在运行时进行的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0</span><br></pre></td></tr></table></figure>
+
+<p>初始化的默认值：对于int、long型是0，flaot、double型是0.0，char是’’即(char)0)，boolean型是false，引用对象类型是null。</p>
+<p><strong>静态初始化</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer[] arr5 &#x3D; &#123;</span><br><span class="line">   new Integer(1),</span><br><span class="line">   2,&#x2F;&#x2F;自动装箱</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这种情况下，存储空间的分配由编译器负责。初始化列表最后一个逗号可选（这个特性使维护长列表变得更容易）。</p>
+<p><strong>动态初始化</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer[] arr6 &#x3D; new Integer[rand.nextInt(10)];</span><br><span class="line">Arrays.stream(arr6).map(s -&gt; rand.nextInt(500))</span><br><span class="line">  .forEach(s -&gt;System.out.print(s+&quot; &quot;));</span><br></pre></td></tr></table></figure>
+
+<p>在这里，“Integer[] arr6 = new Integer[rand.nextInt(10)];”之后arr6还只是一个引用。直到map()里创建Integer对象，并把对象赋值给引用，初始化进程才算结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 177 77 210 482 487 477 235 191</span><br></pre></td></tr></table></figure>
+
+<h3 id="可变参数列表"><a href="#可变参数列表" class="headerlink" title="可变参数列表"></a><strong>可变参数列表</strong></h3><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class VarArgs &#123;</span><br><span class="line">   public static void main(String[] args)&#123;</span><br><span class="line">      f();</span><br><span class="line">      f(1,2,new Integer(3));    </span><br><span class="line">   &#125;</span><br><span class="line">   public static void f(Integer... args)&#123;</span><br><span class="line">      Arrays.stream(args)</span><br><span class="line">        .forEach(s -&gt; System.out.print(s+&quot; &quot;));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可变参数与自动装箱互不影响，传递给可变参数列表0个参数也是可行的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3</span><br></pre></td></tr></table></figure>
+<p>使用可变参数列表重载时需要多注意一点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class OverloadingVarargs1 &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      g(1,&#39;a&#39;);</span><br><span class="line">      g(&#39;a&#39;,&#39;b&#39;); </span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(float i, Character... args)&#123;</span><br><span class="line">      System.out.println(&quot;first&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(Character... args)&#123;</span><br><span class="line">      System.out.println(&quot;second&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>line 4 error: The method g(float, Character[]) is ambiguous for the type OverloadingVarargs<br>作为对比，又写了一个。注意这里并没有报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class OverloadingVarargs2 &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      g(1,2);</span><br><span class="line">      Character c &#x3D; &#39;c&#39;;</span><br><span class="line">      Double d &#x3D; (double) 2;</span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(float i, double... args)&#123;</span><br><span class="line">      System.out.println(&quot;first&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(double... args)&#123;</span><br><span class="line">      System.out.println(&quot;second&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">first</span><br></pre></td></tr></table></figure>
+<p>对于重载可能出现的匹配混淆，可以采用非可变参数来解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class OverloadingVarargs3 &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      g(1,&#39;a&#39;);</span><br><span class="line">      g(&#39;a&#39;,&#39;b&#39;); </span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(float i, Character... args)&#123;</span><br><span class="line">      System.out.println(&quot;first&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   public static void g(Character... args)&#123;</span><br><span class="line">      System.out.println(&quot;second&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">first</span><br><span class="line">second</span><br></pre></td></tr></table></figure>
+
+<h3 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a><strong>多维数组</strong></h3><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int[][] arr7；</span><br></pre></td></tr></table></figure>
+
+<p>JAVA采用上面的语法格式来定义二维数组，但它的实质还是一维数组，只是其数组元素也是引用，数组元素里保存的引用指向一维数组。并且多维数组每一维度可以具有任意的长度（被称为粗糙数组）。</p>
+<p>对以上不太理解，可扩展阅读 <img src="https://wenku.baidu.com/view/43f216c90508763231121249#6" alt="Java多维数组解读"></p>
+<h3 id="数组与泛型的斗争"><a href="#数组与泛型的斗争" class="headerlink" title="数组与泛型的斗争"></a><strong>数组与泛型的斗争</strong></h3><hr>
+<p><strong>泛型vs数组</strong><br>你不能实例化具有参数化类型的数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt;[] arr9 &#x3D; new ArrayList&lt;String&gt;[]();&#x2F;&#x2F;illegal</span><br></pre></td></tr></table></figure>
+
+<p>擦除会移除参数化类型信息，而数组必须知道它们所持有的确切类型，以强制保证类型安全。</p>
+<p>但是可以创建泛型数组的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls;</span><br></pre></td></tr></table></figure>
+
+<p>尽管不能创建实际的持有泛型的数组对象，但是可以创建非泛型的数组，然后对其转型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] arr10 &#x3D; (List&lt;String&gt;[])new List[4];</span><br><span class="line">for(int i&#x3D;0;i&lt;arr10.length;i++)&#123;</span><br><span class="line">   arr10[i] &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">   arr10[i].add(&quot;oath&quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(Arrays.toString(arr10));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[oath], [oath], [oath], [oath]]</span><br></pre></td></tr></table></figure>
+<p>将for循环改成foreach语法打印结果均是null。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] arr10 &#x3D; (List&lt;String&gt;[])new List[4];</span><br><span class="line">for(List&lt;String&gt; a: arr10)&#123;</span><br><span class="line">   a &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">   a.add(&quot;oath&quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(Arrays.toString(arr10));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[null, null, null, null]</span><br></pre></td></tr></table></figure>
+
+<p>foreach不能赋值，只能用来遍历。stream相关的foreach/map使用时也要注意。可扩展阅读 foreach语法详解</p>
+<p><strong>参数化方法vs参数化类</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class ParameterizedArrayType &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">       Integer[] ints &#x3D; &#123;1,2,3,4&#125;;</span><br><span class="line">       Double[] doubles &#x3D; &#123;1.1,2.2,3.3,4.4&#125;;</span><br><span class="line">       Integer[] ints2 &#x3D; new ClassParameter&lt;Integer&gt;().f(ints);</span><br><span class="line">       Double[] doubles2 &#x3D; new ClassParameter&lt;Double&gt;().f(doubles);</span><br><span class="line">       ints2 &#x3D; MethodParameter.f(ints);</span><br><span class="line">       doubles2 &#x3D; MethodParameter.f(doubles);  </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class ClassParameter&lt;T&gt;&#123;</span><br><span class="line">   public T[] f(T[] arg)&#123;</span><br><span class="line">       return arg;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class MethodParameter&#123;</span><br><span class="line">   public static &lt;T&gt; T[] f(T[] arg)&#123;</span><br><span class="line">       return arg;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参数化方法显然比参数化类方便很多，不需要为应用的每种类型都使用一个参数去实例化这个类，并且你可以把参数化方法定义成static，用类名.方法调用。</p>
+<h3 id="Arrays类探索"><a href="#Arrays类探索" class="headerlink" title="Arrays类探索"></a><strong>Arrays类探索</strong></h3><p>–</p>
+<p>可以在java.util类库里找到Arrays类，它有一套实用的用于数组的static方法。<br>Arrays类对以下的方法均针对所有基本类型和Object类型做了重载。</p>
+<p><strong>Arrays.fill()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class FillingArrays &#123;</span><br><span class="line">   public static void main(String[] args) &#123; </span><br><span class="line">       String[] arr8 &#x3D; new String[6];</span><br><span class="line">       Arrays.fill(arr8, &quot;oath&quot;);</span><br><span class="line">       System.out.println(Arrays.toString(arr8));</span><br><span class="line">       Arrays.fill(arr8, 4, 6, &quot;yangmen&quot;);</span><br><span class="line">       System.out.println(Arrays.toString(arr8));</span><br><span class="line">	    </span><br><span class="line">       student[] arr9 &#x3D; new student[2];</span><br><span class="line">       Arrays.fill(arr9, new student(&quot;xiaoming&quot;));</span><br><span class="line">       System.out.println(Arrays.toString(arr9));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class student&#123;</span><br><span class="line">   String name;</span><br><span class="line">   student(String name)&#123;</span><br><span class="line">      this.name &#x3D; name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fill只能用同一个值填充各个位置，或者像line 6所示，只填充数组的某个区域。而针对对象而言，就是复制同一个引用进行填充。该方法内部实现也是利用for循环逐个赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[oath, oath, oath, oath, oath, oath]</span><br><span class="line">[oath, oath, oath, oath, yangmen, yangmen]</span><br><span class="line">[FillingArrays.student@4c873330, FillingArrays.student@4c873330]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Array.copyOf()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int[] arr12 &#x3D; new int[]&#123;1,2,3,4,5&#125;;</span><br><span class="line">int[] arr13 &#x3D; Arrays.copyOf(arr12, 2);</span><br><span class="line">System.out.println(Arrays.toString(arr13));</span><br><span class="line">arr13 &#x3D; Arrays.copyOfRange(arr12, 3, 5);</span><br><span class="line">System.out.println(Arrays.toString(arr13));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[1, 2]</span><br><span class="line">[4, 5]</span><br></pre></td></tr></table></figure>
+
+<p>copyOf()实现里调用了System.arraycopy(Object src, int srcPos,Object dest, int destPos,int length)方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int[] arr14 &#x3D; new int[5];</span><br><span class="line">int[] arr15 &#x3D; new int[7];</span><br><span class="line">Arrays.fill(arr14, 47);</span><br><span class="line">Arrays.fill(arr15, 66);</span><br><span class="line">System.out.println(&quot;arr14 &quot;+Arrays.toString(arr14));</span><br><span class="line">System.out.println(&quot;arr15 &quot;+Arrays.toString(arr15));</span><br><span class="line">System.arraycopy(arr14, 1, arr15, 1, 3);</span><br><span class="line">System.out.println(&quot;arr15 &quot;+Arrays.toString(arr15));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr14 [47, 47, 47, 47, 47]</span><br><span class="line">arr15 [66, 66, 66, 66, 66, 66, 66]</span><br><span class="line">arr15 [66, 47, 47, 47, 66, 66, 66]</span><br></pre></td></tr></table></figure>
+
+<p>如果复制对象数组，只会复制对象的引用——而不是对象本身的拷贝（浅复制）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class FillingArrays &#123;</span><br><span class="line">   public static void main(String[] args) &#123; </span><br><span class="line">       student[] arr16 &#x3D; new student[1];</span><br><span class="line">       student[] arr17 &#x3D; new student[2];</span><br><span class="line">       Arrays.fill(arr17,new student(&quot;haha&quot;));</span><br><span class="line">       student i &#x3D; new student(&quot;oath&quot;);</span><br><span class="line">       arr16[0] &#x3D; i;</span><br><span class="line">       System.out.println(&quot;arr16 &quot;+Arrays.toString(arr16));</span><br><span class="line">       System.out.println(&quot;arr17 &quot;+Arrays.toString(arr17));</span><br><span class="line">       System.arraycopy(arr16, 0, arr17, 0, 1);</span><br><span class="line">       System.out.println(&quot;arr17 &quot;+Arrays.toString(arr17));</span><br><span class="line">       System.out.println(&quot;arr17[0]&#39;s name: &quot;+arr17[0].name);</span><br><span class="line">       i.name &#x3D; &quot;oath2&quot;;</span><br><span class="line">       System.out.println(&quot;arr17 &quot;+Arrays.toString(arr17));</span><br><span class="line">       System.out.println(&quot;arr17[0]&#39;s name: &quot;+arr17[0].name);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class student&#123;</span><br><span class="line">   String name;</span><br><span class="line">   student(String name)&#123;</span><br><span class="line">      this.name &#x3D; name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">arr16 [CopyingArrays.student@119d7047]</span><br><span class="line">arr17 [CopyingArrays.student@776ec8df, CopyingArrays.student@776ec8df]</span><br><span class="line">arr17 [CopyingArrays.student@119d7047, CopyingArrays.student@776ec8df]</span><br><span class="line">arr17[0]&#39;s name: oath</span><br><span class="line">arr17 [CopyingArrays.student@119d7047, CopyingArrays.student@776ec8df]</span><br><span class="line">arr17[0]&#39;s name: oath2</span><br></pre></td></tr></table></figure>
+
+<p>还要注意，System.arrayCopy()不会执行自动包装和自动拆包。不举例了。</p>
+<p><strong>Arrays.toString()/Arrays.deepToString()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int[][] arr18 &#x3D; new int[2][2];</span><br><span class="line">Arrays.fill(arr18[0], 11);</span><br><span class="line">Arrays.fill(arr18[1], 22);</span><br><span class="line">System.out.println(Arrays.toString(arr18));</span><br><span class="line">System.out.println(Arrays.deepToString(arr18));</span><br></pre></td></tr></table></figure>
+
+<p>Arrays.toString()对基本类型数据进行了重载，直接打印值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[I@3b07d329, [I@41629346]</span><br><span class="line">[[11, 11], [22, 22]]</span><br></pre></td></tr></table></figure>
+
+<p>Arrays.toString(Object[])调用String.valueOf()，后者调用了Object.toString()。</p>
+<p>Arrays.deepToString()递归调用了自身直至最后一层，最后使用基本类型和Object的toString()方法。</p>
+<p>此处顺便加深一下二维数组实质是一维数组。</p>
+<p><strong>Arrays.equals()/Arrays.deepEquals()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class ComparingArrays &#123;</span><br><span class="line">   public static void main(String[] args) &#123; </span><br><span class="line">       String[] arr19 &#x3D; new String[2];</span><br><span class="line">       Arrays.fill(arr19, &quot;oath&quot;);</span><br><span class="line">       String[] arr20 &#x3D; &#123;new String(&quot;oath&quot;),new String(&quot;oath&quot;),&#125;;</span><br><span class="line">       System.out.println(Arrays.equals(arr19,arr20));</span><br><span class="line">       student[] arr21 &#x3D; new student[2];</span><br><span class="line">       Arrays.fill(arr21, new student(&quot;yangmen&quot;));</span><br><span class="line">       student[] arr22 &#x3D; &#123;new student(&quot;yangmen&quot;),new studen(&quot;yangmen&quot;)&#125;;</span><br><span class="line">       System.out.println(Arrays.equals(arr21,arr22));</span><br><span class="line">       int[][] arr23 &#x3D; new int[2][2];</span><br><span class="line">       int[][] arr24 &#x3D; new int[2][2];</span><br><span class="line">       Arrays.fill(arr23[0], 56);</span><br><span class="line">       Arrays.fill(arr24[0], 56);</span><br><span class="line">       System.out.println(Arrays.deepEquals(arr23,arr24));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class student&#123;</span><br><span class="line">   String name;</span><br><span class="line">   student(String name)&#123;</span><br><span class="line">      this.name &#x3D; name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>equals()方法对所有基本类型和Object类型都做了重载。基本类型和Object类型都会先比较数组地址，再比较数组长度。最后逐个比较元素，基本类型用自身包装类的equals()方法比较每一个元素，Object类型对每一个元素使用equals()作比较判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+
+<p>String类对超类Object类的equals()方法进行了重载，比较每个元素的内容。student类并没有重写,所以结果为false。</p>
+<p>deepEquals()会递归调用自身直至最后一层，最后使用基本类型和Object的equals()方法。</p>
+<p><strong>数组的比较</strong></p>
+<p>在排序和搜索之前，说一下数组的比较。</p>
+<p>排序比较根据对象的实际类型执行比较操作。一种自然的解决方案是为每种不同的类型各编写一个不同的排序方法，但这样的代码难以被新的类型所复用。因此，使用策略设计模式，将“会发生变化的代码”封装在单独的类中(策略对象），然后把策略对象传递给总是相同的代码，这些代码将使用策略来完成其算法。</p>
+<p>Java有两种方式来提供比较功能。</p>
+<ul>
+<li>第一种是实现java.lang.Comparable接口，使你的类具体“天生”的比较能力。这个接口很简单，只要重写compareTo()方法即可。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public class CompType1 &#123;</span><br><span class="line">   public static void main(String[] args) &#123; </span><br><span class="line">       Employee[] arr25 &#x3D; new Employee[3];</span><br><span class="line">       for(int j&#x3D;0;j&lt;arr25.length;j++)&#123;</span><br><span class="line">           String name &#x3D; getRandomString(4);</span><br><span class="line">           int age &#x3D; (int)Math.round(Math.random()*50);</span><br><span class="line">           arr25[j] &#x3D; new Employee(name,age);</span><br><span class="line">       &#125;</span><br><span class="line">       Arrays.stream(arr25)</span><br><span class="line">         .forEach(s -&gt; System.out.println(s.toString()));</span><br><span class="line">       Arrays.sort(arr25);</span><br><span class="line">       System.out.println();</span><br><span class="line">       Arrays.stream(arr25)</span><br><span class="line">         .forEach(s -&gt; System.out.println(s.toString()));</span><br><span class="line">   &#125;</span><br><span class="line">   public static String getRandomString(int length) &#123;</span><br><span class="line">       String base &#x3D; &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJ&quot;</span><br><span class="line">                    +&quot;KLMNOPQRSTUVWXYZ0123456789&quot;;   </span><br><span class="line">       Random random &#x3D; new Random();   </span><br><span class="line">       StringBuffer sb &#x3D; new StringBuffer();   </span><br><span class="line">       for (int i &#x3D; 0; i &lt; length; i++) &#123;   </span><br><span class="line">          int idex &#x3D; random.nextInt(base.length());   </span><br><span class="line">          sb.append(base.charAt(idex));   </span><br><span class="line">       &#125;   </span><br><span class="line">       return sb.toString();   </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Employee implements Comparable&lt;Employee&gt;&#123;</span><br><span class="line">   String name;</span><br><span class="line">   int age;</span><br><span class="line">   Employee(String name,int age)&#123;</span><br><span class="line">       this.name &#x3D; name;</span><br><span class="line">       this.age &#x3D; age;</span><br><span class="line">   &#125;</span><br><span class="line">   @Override</span><br><span class="line">   public int compareTo(Employee o) &#123;</span><br><span class="line">       return age-o.age;</span><br><span class="line">   &#125;</span><br><span class="line">   public String toString()&#123;</span><br><span class="line">       return &quot;name: &quot;+this.name+&quot; age: &quot;+this.age+&quot; &quot;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">name: TKA8 age: 1 </span><br><span class="line">name: Yqvr age: 15 </span><br><span class="line">name: eN4W age: 13</span><br><span class="line"> </span><br><span class="line">name: TKA8 age: 1 </span><br><span class="line">name: eN4W age: 13 </span><br><span class="line">name: Yqvr age: 15</span><br></pre></td></tr></table></figure>
+
+<p>Arrays.sort(Object[])比较时调用Employee里的compareTo()方法。</p>
+<ul>
+<li>第二种是编写自己的Comparator，传递给一些排序方法如Collections.sort()或者 Arrays.sort()。<br>String类本身重写了comprareTo()方法，是按字典序从小到大排序的。此处想先按长度再按字典序的顺序排序。所以需要自己写一个Comparator。</li>
+</ul>
+<p>此外Collections类的reverseOrder()可以产生一个Comparator,是自然排序顺序的反序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class CompType2 &#123;</span><br><span class="line">   public static void main(String[] args) &#123; </span><br><span class="line">       String[] arr26 &#x3D; &#123;&quot;afsd&quot;,&quot;acsd&quot;,&quot;afsdijk&quot;&#125;;</span><br><span class="line">       Arrays.sort(arr26);</span><br><span class="line">       Arrays.stream(arr26)</span><br><span class="line">         .forEach(s -&gt; System.out.println(s.toString()));</span><br><span class="line">       Comparator&lt;String&gt; comp &#x3D; new Comparator&lt;String&gt;()&#123;</span><br><span class="line">           @Override</span><br><span class="line">           public int compare(String s1, String s2) &#123;</span><br><span class="line">               if(s1.length()!&#x3D;s2.length()) </span><br><span class="line">                 return s2.length()-s1.length();</span><br><span class="line">               else  </span><br><span class="line">                 return s1.compareTo(s2);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       System.out.println();</span><br><span class="line">       Arrays.sort(arr26,comp);</span><br><span class="line">       Arrays.stream(arr26)</span><br><span class="line">         .forEach(s -&gt; System.out.println(s.toString()));</span><br><span class="line">       Arrays.sort(arr26,Collections.reverseOrder());</span><br><span class="line">       Arrays.stream(arr26)</span><br><span class="line">        .forEach(s -&gt; System.out.println(s.toString()));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">acsd</span><br><span class="line">afsd</span><br><span class="line">afsdijk</span><br><span class="line">afsdijk</span><br><span class="line">acsd</span><br><span class="line">afsd</span><br><span class="line">afsdijk</span><br><span class="line">afsd</span><br><span class="line">acsd</span><br></pre></td></tr></table></figure>
+
+<p><strong>Arrays.sort()</strong></p>
+<p>可选择全排序或者部分排序。对象实现了Comparble接口(自带compareTo())或传入自己想要的Comparator。</p>
+<p>此处要提的是String类里也有一个自定义的Comparator，String.CASE_INSENSITIVE_ORDER</p>
+<ul>
+<li>sort(T[] a)</li>
+<li>sort(T[] a, Comparator&lt;? super T&gt; c)</li>
+<li>sort(T[] a, int fromIndex, int toIndex,Comparator&lt;? super T&gt; c)</li>
+</ul>
+<p>对基本类型也有相应的sort()方法重载。具体内部排序之后在排序章节补充，此处会补上跳转链接。</p>
+<p><strong>Arrays.binarySearch()</strong></p>
+<p>如果数组已经排好序了，就可以使用binaraySearch进行快速查找。这里需要知道2点：</p>
+<ul>
+<li><p>如果找到目标，Arrays.binarySearch()返回目标在数组中的index值（&gt;=0）;如果没找到则返回 -（插入点）-1 （&lt;0）。</p>
+</li>
+<li><p>如果使用了Comparator排序了某个对象数组(基本类型数组不能用Comparator排序），这种情况下使用binarySearch()时必须提供同样的Comparator。</p>
+<p>binarySearch(T[] a, T key, Comparator&lt;? super T&gt; c)<br>binarySearch(long[] a, int fromIndex, int toIndex,long key)</p>
+</li>
+</ul>
+<p>基本类型当然也重载了以上两种。</p>
+<p>下面是float基本类型的binarySearch()，注意midBits == keyBits这部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int low &#x3D; fromIndex;</span><br><span class="line">int high &#x3D; toIndex - 1;</span><br><span class="line">while (low &lt;&#x3D; high) &#123;</span><br><span class="line">   int mid &#x3D; (low + high) &gt;&gt;&gt; 1;</span><br><span class="line">   float midVal &#x3D; a[mid];</span><br><span class="line">   if (midVal &lt; key)</span><br><span class="line">       low &#x3D; mid + 1;  &#x2F;&#x2F; Neither val is NaN, thisVal is smaller</span><br><span class="line">   else if (midVal &gt; key)</span><br><span class="line">       high &#x3D; mid - 1; &#x2F;&#x2F; Neither val is NaN, thisVal is larger</span><br><span class="line">   else &#123;</span><br><span class="line">       int midBits &#x3D; Float.floatToIntBits(midVal);</span><br><span class="line">       int keyBits &#x3D; Float.floatToIntBits(key);</span><br><span class="line">       if (midBits &#x3D;&#x3D; keyBits)     &#x2F;&#x2F; Values are equal</span><br><span class="line">           return mid;             &#x2F;&#x2F; Key found</span><br><span class="line">       else if (midBits &lt; keyBits) &#x2F;&#x2F; (-0.0, 0.0) or (!NaN, NaN)</span><br><span class="line">           low &#x3D; mid + 1;</span><br><span class="line">       else                        &#x2F;&#x2F; (0.0, -0.0) or (NaN, !NaN)</span><br><span class="line">           high &#x3D; mid - 1;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">return -(low + 1);  &#x2F;&#x2F; key not found.</span><br></pre></td></tr></table></figure>
+
+<p>浮点数判断需要注意，float 和double 的精度范围，超过范围的数字会被忽略</p>
+<ul>
+<li><p>浮点数大小判断</p>
+<p>如果没有等号关系在里面，也就必然一大一小，那么直接用 &gt; 或者 &lt;</p>
+</li>
+<li><p>浮点数相等判断</p>
+<p>因为浮点数在内存中存放，可能无法精确的储存，所以不同的值，可能有相同的内存数据。所以要使用以下的方法：<br>以float为例，32位APP中精度为e-7，所以取1e-7。<br>两个数字A、B，如果|A-B|&lt;1e-7，则计算机里A、B就是相等的。</p>
+</li>
+</ul>
+<p>举例，0.0和-0.0在内存里就是不同的存储数据，所以在查找元素的时候应当区分。其他场景下时大小应该是一样的都是0。</p>
+<p>–<br>END</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-07-03T18:36:23.000Z">2017-07-04</time>
                 
                 
@@ -235,7 +451,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            11
+                            12
                         </p>
                     </a>
                 </div>
@@ -259,7 +475,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -356,7 +572,7 @@
                 <span class="level-item">Deep Learning</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Interview/">
@@ -409,7 +625,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Java-Array/" style="font-size: 10px;">Java Array</a> <a href="/tags/backpropagation/" style="font-size: 15px;">backpropagation</a> <a href="/tags/gradient/" style="font-size: 15px;">gradient</a> <a href="/tags/regression/" style="font-size: 20px;">regression</a> <a href="/tags/youtube-dnn/" style="font-size: 10px;">youtube-dnn</a> <a href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">出线问题</a>
+        <a href="/tags/Java-Array/" style="font-size: 10px;">Java Array</a> <a href="/tags/backpropagation/" style="font-size: 15px;">backpropagation</a> <a href="/tags/gradient/" style="font-size: 15px;">gradient</a> <a href="/tags/regression/" style="font-size: 20px;">regression</a> <a href="/tags/video-understand%E3%80%81video-text-retrieval/" style="font-size: 10px;">video understand、video-text retrieval</a> <a href="/tags/youtube-dnn/" style="font-size: 10px;">youtube-dnn</a> <a href="/tags/%E5%87%BA%E7%BA%BF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">出线问题</a>
     </div>
 </div>
     
@@ -421,6 +637,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/04/04/CVPR2020-%E3%80%8AFine-grained%20Video-Text%20Retrieval%20with%20Hierarchical%20Graph%20Reasoning%E3%80%8B%E8%AE%BA%E6%96%87%E7%90%86%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CVPR2020-《Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning》论文理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-04T14:53:33.000Z">2020-04-04</time></div>
+                    <a href="/2020/04/04/CVPR2020-%E3%80%8AFine-grained%20Video-Text%20Retrieval%20with%20Hierarchical%20Graph%20Reasoning%E3%80%8B%E8%AE%BA%E6%96%87%E7%90%86%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CVPR2020-《Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning》论文理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Deep-Learning/">Deep Learning</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -498,25 +733,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2017/09/02/softmax%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="softmax回归公式推导">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-09-02T09:02:27.000Z">2017-09-02</time></div>
-                    <a href="/2017/09/02/softmax%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" class="title has-link-black-ter is-size-6 has-text-weight-normal">softmax回归公式推导</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Machine-Learning/">Machine Learning</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -527,6 +743,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2017/09/">
@@ -599,6 +826,13 @@
                     <a class="tags has-addons" href="/tags/regression/">
                         <span class="tag">regression</span>
                         <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/video-understand%E3%80%81video-text-retrieval/">
+                        <span class="tag">video understand、video-text retrieval</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -640,6 +874,25 @@
         
         <article class="media">
             
+            <a href="/2020/04/04/CVPR2020-%E3%80%8AFine-grained%20Video-Text%20Retrieval%20with%20Hierarchical%20Graph%20Reasoning%E3%80%8B%E8%AE%BA%E6%96%87%E7%90%86%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CVPR2020-《Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning》论文理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-04T14:53:33.000Z">2020-04-04</time></div>
+                    <a href="/2020/04/04/CVPR2020-%E3%80%8AFine-grained%20Video-Text%20Retrieval%20with%20Hierarchical%20Graph%20Reasoning%E3%80%8B%E8%AE%BA%E6%96%87%E7%90%86%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CVPR2020-《Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning》论文理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Deep-Learning/">Deep Learning</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2017/09/04/backpropagation%E7%AE%97%E6%B3%95%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8A%A0%E9%80%9F%E4%BA%86%E6%A2%AF%E5%BA%A6%E6%B1%82%E8%A7%A3/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="backpropagation公式推导">
@@ -714,25 +967,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2017/09/02/softmax%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="softmax回归公式推导">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-09-02T09:02:27.000Z">2017-09-02</time></div>
-                    <a href="/2017/09/02/softmax%E5%9B%9E%E5%BD%92%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" class="title has-link-black-ter is-size-6 has-text-weight-normal">softmax回归公式推导</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Machine-Learning/">Machine Learning</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -743,6 +977,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2017/09/">
@@ -815,6 +1060,13 @@
                     <a class="tags has-addons" href="/tags/regression/">
                         <span class="tag">regression</span>
                         <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/video-understand%E3%80%81video-text-retrieval/">
+                        <span class="tag">video understand、video-text retrieval</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
