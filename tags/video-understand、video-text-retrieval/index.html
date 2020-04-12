@@ -186,7 +186,7 @@
 <h3 id="本文的方案"><a href="#本文的方案" class="headerlink" title="本文的方案"></a>本文的方案</h3><p>1、问题拆解：</p>
 <p>  将视频-文本匹配拆解为多个粒度的匹配问题，从local到global的角度比较全面的解决这个问题。<br>2、方案：</p>
 <p>  将文本、视频都由粗到细拆解到event、action、entity三个粒度，在三个粒度上分别作对齐，然后集成3个层次的相似度作为两个模态匹配程度，注意多个粒度并不是独立的，从细到粗是以graph结构联系在一起的。</p>
-<h3 id="整体网络结构"><a href="#整体网络结构" class="headerlink" title="整体网络结构"></a>整体网络结构</h3><p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/1.png)</p>
+<h3 id="整体网络结构"><a href="#整体网络结构" class="headerlink" title="整体网络结构"></a>整体网络结构</h3><p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/1.png" alt=""></p>
 <p>整个方案可以拆分为3个部分：hierarchical text encoder、hierarchical video encoder、video-text matching。</p>
 <p>hierarchical text encoder： 构建层次语义角色graph，利用graph reasoning学习多层次的文本语义表示</p>
 <p>hierarchical video encoder：获得多层次的video语义表示，本文此处设计比较简单，简单的通过矩阵映射完成了原始特征到多个level语义的变换。</p>
@@ -195,38 +195,39 @@
 <p>将完整的text描述视为global event，一个event中包含了多个action，而action的语义可以更细地解析到施事、受事这样的entity及它们的关系。这样的一个从global到local的分解，能够比较全面、有效的抓住text描述的语义表示。</p>
 <p>利用现有的语义角色标注和依存关系的工具，描述中包含的名词作为entity，动词作为action，角色标注的关系是连接entity节点和action节点的边。不同的关系被定义为不同的边类型。</p>
 <p><strong>具体设计</strong></p>
-<p>1、event语义表示：双向的lstm+self-attention, ci为text描述的词序列<br>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/2.png)<br>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/3.png)</p>
+<p>1、event语义表示：双向的lstm+self-attention, ci为text描述的词序列<br><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/2.png" alt=""></p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/3.png" alt=""></p>
 <p>2、entity、action语义表示：<br>节点初始化：entity、action节点的embedding初始为其包含的词的embedding的max-pooling结果<br>graph reasoning：</p>
 <p><strong>0-layer：</strong> </p>
 <p>Wr是语义角色标注的关系的矩阵，rij表示节点i与节点j是否有边。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/4.png) </p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/4.png" alt=""> </p>
 <p><strong>l+1-layer:</strong><br>当前节点的语义表示由其邻居节点的语义决定。对邻居节点计算self-attention并将第l-layer语义以残差的方式结合进来，其中Wt1是0层到1层的转换矩阵</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/5.png)</p>
-<p>邻居节点的attention权重计算：<br>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/6.png)<br>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/7.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/5.png" alt=""></p>
+<p>邻居节点的attention权重计算：<br><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/6.png" alt=""><br><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/7.png" alt=""></p>
 <p>3、输出结果：<br>将entity、action、event三个层的graph reasoning的第L-layer的输出作为这三个层各节点的最终表示，记为Co、Ca、Ce.</p>
 <h4 id="hierarchical-video-encoder"><a href="#hierarchical-video-encoder" class="headerlink" title="hierarchical video encoder"></a>hierarchical video encoder</h4><p>将video拆分到entity、action、event三个层级会涉及时序分割、物体检测、动作识别跟踪等，本文为了简化问题，简单地通过构建不同层的embedding来聚焦不同层级的信息。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/8.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/8.png" alt=""></p>
 <p>同样的，event层级会通过self-attention来计算global的语义表示。其他层级保留多节点的表示，在video-text matching阶段来聚合。</p>
 <h4 id="video-text-matching"><a href="#video-text-matching" class="headerlink" title="video-text matching"></a>video-text matching</h4><p><strong>global matching</strong></p>
 <p>text event层和 video event self-attention聚合之后的两个向量的cos将作为event层的video-text相似度。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/9.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/9.png" alt=""></p>
 <p><strong>local attentive matching</strong></p>
 <p>entity和action层级则通过cross-attention的方式来集成多个节点之间的相似度。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/10.png)</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/12.png)</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/13.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/10.png" alt=""></p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/12.png" alt=""></p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/13.png" alt=""></p>
 <p>其中attention权重的计算如下：</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/11.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/11.png" alt=""></p>
 <p>最终text-video的相似度由三个不同层级相似度的和表示：</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/14.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/14.png" alt=""></p>
 <h4 id="train与inference"><a href="#train与inference" class="headerlink" title="train与inference"></a>train与inference</h4><p>loss采用contrastive ranking loss。负样本通过min-batch内进行构造。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/15.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/15.png" alt=""></p>
 <h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p>VATEX上text2video R@1:35.1, R@5:73.5, R@10:83.5</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/16.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/16.png" alt=""></p>
 <p>不同层级贡献的对比</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/17.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/17.png" alt=""></p>
 <p>模型对细粒度信息学习的验证，从下面的数据看，细粒度信息在场景、事件等较粗粒度有较多的准确度的提升。</p>
-<p>![](../images/CVPR202-Fine-grained Video-Text Retrieval with Hierarchical Graph Reasoning/18.png)</p>
+<p><img src="../images/CVPR2020-Fine-grained_Video-Text_Retrieval_with_Hierarchical_Graph_Reasoning/18.png" alt=""></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过多层多粒度信息的对齐，从local到global比较全面的衡量了video-text的匹配程度。从实验结果看，这些粒度信息的增加和graph reasoning的学习对跨模态匹配的提升是明显的。</p>
 <p>但细粒度信息的判别依旧不是很理想，应该主要是video侧的多粒度的特征学习过于简单的缘故，通过物体识别、时序分割、小片段提议等技术应该能获得更好的细粒度判别能力。</p>
 <p>此外，文本侧丢失了一些比较重要的属性词，如“红色高跟鞋”这样的描述，红色这个关键的属性形容词会被忽略。</p>
